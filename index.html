@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023) -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>卓望wd技术方案</title>
+    <link rel="stylesheet" href="fe_guide/font/font_awesome_4.5/font_awesome.css">
+    <link rel="stylesheet" href="fe_guide/html_css/Front-End Code Guide_files/style.css">
+    <!--<base target="_blank">--><base href="." target="_blank">
+</head>
+<body>
+<div id="wrap">
+<div class="wrap-in">
+<aside class="sidebar">
+    <div class="inner">
+        <header>
+            <h1 class="logo">
+                <a href="#">FrontEnd Developer Guide</a>
+            </h1>
+            <p class="hint">Front-End Developer Guide</p>
+        </header>
+        <nav class="navi">
+            <ul>
+                <li>
+                    <a href="#perface" class="active">前言</a>
+                    <span class="icon fa fa-home"></span>
+                    <span class="dot-line dot-blue"></span>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <a href="#doc"><strong>css</strong>预处理方案</a>
+                    <span class="icon fa fa-book"></span>
+                    <span class="dot-line dot-blue"></span>
+                </li>
+                <li>
+                    <a href="#htmlcode"><strong>h5</strong>rem方案</a>
+                    <span class="icon fa fa-pencil"></span>
+                    <span class="dot-line dot-blue"></span>
+                </li>
+                <li>
+                    <a href="#futurecode"><strong>vw</strong>未来方案</a>
+                    <span class="icon fa fa-pencil"></span>
+                    <span class="dot-line dot-blue"></span>
+                </li>
+            </ul>
+        </nav>
+        <p class="version">1.0.1 Ver</p>
+    </div>
+    <div class="nav-bg"></div>
+</aside>
+<div id="container">
+<div class="main">
+<article id="perface">
+    <header>
+        <h2>前言</h2>
+        <span class="sect">§ 1</span>
+        <span class="dot-line"></span>
+    </header>
+    <section class="section">
+        <p>本文档为前端团队<code>样式开发方案</code>规范，旨在统一前端开发技术类型。目的在于优化项目协作维护成本，提高团队的交叉协作开发效率。</p>
+        <p>本文档基于<code>HTML5 / CSS3</code>构建，请采用现代浏览器进行浏览。</p>
+    </section>
+</article>
+<article id="description">
+<section id="doc">
+    <header>
+        <h2>css 预处理 compass+sass</h2>
+        <span class="sect">§ 2</span>
+        <span class="dot-line"></span>
+    </header>
+    <dl>
+        <dt>官网</dt>
+        <dd>
+            Sass官网：<a href="http://sass-lang.com/" target="_blank">http://sass-lang.com/</a><br/>
+            Compass官网：<a href="http://compass-style.org/" target="_blank">http://compass-style.org/</a>
+        </dd>
+        <dt>Sass和Compass 安装前提</dt>
+        <dd>
+            安装Sass和Compass之前，请先确保本地已经装了Ruby环境，因为这两者都是用Ruby语言开发的。至于Ruby环境的安装，本文提供两个途径：
+        </dd>
+        <dd>
+            一个是taobao镜像：<a href="https://ruby.taobao.org/" target="_blank">https://ruby.taobao.org/</a>
+        </dd>
+        <dd>
+            一个是Ruby China上的安装教程：<a href="https://ruby-china.org/wiki/install_ruby_guide" target="_blank">https://ruby-china.org/wiki/install_ruby_guide</a>
+        </dd>
+        <dt>ruby安装(windows下)</dt>
+        <dd>
+        	1、先安装对应系统的ruby 下载地址 <a href="http://rubyinstaller.org/downloads/" target="_blank">Ruby</a>
+        </dd>
+        <dd>
+        	2、因为国内被墙，淘宝镜像不能用了，要使用Ruby China的了。
+        </dd>
+        <dd>
+        	<pre>
+$ gem sources --remove https://rubygems.org/  
+$ gem sources -a http://gems.ruby-china.org/  
+$ gem sources -l  
+*** CURRENT SOURCES ***  
+  
+http://gems.ruby-china.org/  
+# 请确保只有 gems.ruby-china.org 
+# 才开始安装compss和sass
+$ gem  install compass
+$ gem  install sass
+        	</pre>
+        </dd>
+        <dt>如何用compass搭建开发环境?</dt>
+        <dd>
+            命令行进入项目文件夹
+        </dd>
+        <dd>
+            <img src="images/compass/1.jpg" alt=""/>
+        </dd>
+        <dt>
+            初始化compass，命令行输入：compass init
+        </dt>
+        <dd>初始化后，compass里面会有一个config.rb文件、一个存放Sass文件的文件夹和一个存放编译后的stylesheets文件夹（文件夹名称可自行修改），你也可以放入其他文件，如下图。</dd>
+        <dd>
+            <img src="images/compass/2.jpg" alt=""/>
+        </dd>
+        <dd>我们看看下图config.rb文件,在代码的6~9行，我们可以设置文件的路径，在12行设置编译后的css格式，18行设置 line_comments = false 去除默认状态下大量的注释，如果需要去除缓存文件，则加上一句 cache = false 即可。</dd>
+        <dt>编译命令行：compass compile</dt>
+        <dt>自动编译命令行：compass watch(每次都要进行编译太麻烦，可以自动检测，只要scss文件发生变化)</dt>
+        <dt>压缩css命令行：compass compile --output-style compressed</dt>
+        <dt>重新编译未变动文件：compass compile --force</dt>
+        <dt>压缩编译未变动文件：compass compile --output-style compressed --force</dt>
+        <dt>结束命令行:按住ctrl+c，输入Y，结束</dt>
+        <dt>资料推荐</dt>
+        <dd>Sass用法指南：<a href="http://www.ruanyifeng.com/blog/2012/06/sass.html" target="_blank">http://www.ruanyifeng.com/blog/2012/06/sass.html</a></dd>
+        <dd>Compass用法指南：<a href="http://www.ruanyifeng.com/blog/2012/11/compass.html" target="_blank">http://www.ruanyifeng.com/blog/2012/11/compass.html</a></dd>
+    </dl>
+</section>
+<section id="htmlcode">
+    <header>
+        <h2>H5 rem方案</h2>
+        <span class="sect">§ 3</span>
+        <span class="dot-line"></span>
+    </header>
+    <p>目前手机端响应式布局，常用rem单位来做适配。</p>
+    <dl>
+        <dt>什么是rem单位？</dt>
+        <dd>font size of the root element,rem是相对于根元素&lt;html&gt;这样就意味着，我们只需要在根元素确定一个参考值。</dd>
+        <dt>根元素的参考值如何确定？</dt>
+        <dd>常见设计稿大小640px, 750px, 1080px等，从开发简单和维护方便的角度考虑，按实际设计稿大小除以100，即是单位前移两位开发最为方便，关系对应如下表:</dd>
+        <dd>例如: 640px => 1rem = 100px，其他按实际设计稿大小px除以100</dd>
+        <dd>
+            <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td>设计稿尺寸大小</td>
+                    <td>rem</td>
+                    <td>根&lt;html&gt;的font-size大小</td>
+                </tr>
+                <tr>
+                    <td>640px</td>
+                    <td>6.4rem</td>
+                    <td>100px</td>
+                </tr>
+                <tr>
+                    <td>750px</td>
+                    <td>7.5rem</td>
+                    <td>100px</td>
+                </tr>
+                <tr>
+                    <td>1080px</td>
+                    <td>10.8rem</td>
+                    <td>100px</td>
+                </tr>
+            </table>
+        </dd>
+        <dt>按照这个比例关系，js动态计算根的font-size</dt>
+        <dd>
+<pre>
+(function(win, designW) {
+	var doc = win.document;
+	var docEle = doc.documentElement;
+	designW = designW || 640; //设计稿宽度px,默认640px设计稿
+	var ratio = designW / 100;//640px=> 1rem = 100px, 超出640px font-size：100px;
+	var or = "orientationchange" in win ? "orientationchange" : "resize";
+	//创建viewport
+	_createViewport();
+	if(doc.addEventListener){
+		win.addEventListener(or, _refreshRem, false);
+		doc.addEventListener("DOMContentLoaded", _refreshRem, false);
+	}
+	/**
+	 * 创建viewport
+	 */
+	function _createViewport(){
+		var metaEl = doc.createElement('meta');
+        metaEl.setAttribute('name', 'viewport');
+        metaEl.setAttribute('content', 'initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no');
+        if (docEle.firstElementChild) {
+            docEle.firstElementChild.appendChild(metaEl);
+        }
+	}
+	/**
+	 * 动态更新rem
+	 */
+	function _refreshRem() {
+		var clientW = docEle.clientWidth || 320;
+		//设置最大和最小宽度取值
+		if(clientW > designW){
+			clientW = designW
+		} else if(clientW<320){
+			clientW=320;
+		}
+		docEle.style.fontSize = clientW / ratio + "px";
+	};
+})(window, 640);//640为设计稿宽度px值,根据实际设计稿大小对应设置
+</pre>
+        </dd>
+        <dd>demo:<a href="demo/rem/rem.html" target="_blank">get the detail</a></dd>
+        <dd class="red">注：px转换为rem，对于1px不做转换。</dd>
+    </dl>
+</section>
+<section id="futurecode">
+    <header>
+        <h2>css3 新单位vw vh未来方案(目前兼容还不够好，不推荐用)</h2>
+        <span class="sect">§ 4</span>
+        <span class="dot-line"></span>
+    </header>
+    <dl>
+        <dt>vw vh css3 新单位</dt>
+        <dd class="red">注：需设置meta缩放比1:1</dd>
+        <dd>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /&gt;</dd>
+        <dd>vw：viewpoint width，视窗宽度，1vw等于视窗宽度的1%。</dd>
+        <dd>vh：viewpoint height，视窗高度，1vh等于视窗高度的1%。</dd>
+        <dd>vmin：vw和vh中较小的那个。</dd>
+        <dd>vmax：vw和vh中较大的那个。</dd>
+        <dt>vw vh兼容情况</dt>
+        <dd>最新兼容情况查询：<a href="http://caniuse.com/#search=vw" target="_blank">http://caniuse.com/#search=vw</a></dd>
+        <dt>rem与vw对应转换关系</dt>
+        <dd>
+            <pre>
+* ps: 640px => 1rem = 100px
+*           => 640px = 6.4rem = 100vw
+*           => 1rem = 15.625vw
+            </pre>
+        </dd>
+        <dt>美好的未来，新的机器系统将都支持vw vh,我们前端只需要在根设置以下一行css即可,-_-</dt>
+        <dd>
+            <pre>
+html{
+    font-size:15.625vw;
+}
+            </pre>
+        </dd>
+        <dd>demo:<a href="demo/rem/vw.html" target="_blank">get the detail</a></dd>
+    </dl>
+</section>
+</article>
+</div>
+</div>
+</div>
+</div>
+<script src="fe_guide/html_css/Front-End Code Guide_files/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="fe_guide/html_css/Front-End Code Guide_files/google-code-prettify.js" type="text/javascript"></script>
+<script src="fe_guide/html_css/Front-End Code Guide_files/base.js" type="text/javascript"></script>
+</body>
+</html>

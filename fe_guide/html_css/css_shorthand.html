@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>css简写规范</title>
+    <style>
+        body,div,span,h1,h2,h3,h4,p,pre,
+        abbr,address,cite,code,em,img,
+        ins,q,samp,strong,sub,sup,b,i,
+        dl,dt,dd,ol,ul,li,form,label,
+        table,tr,th,td,article,aside,
+        canvas,details,figcaption,figure,
+        footer,header,hgroup,nav,section,time {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {display:block;}
+        ul {list-style:none;}
+        input,select {vertical-align:middle;}
+        table {border-collapse:collapse;border-spacing:0;}
+        a {text-decoration:none;color:#5ca3d2;}
+        a:hover {color:#0063A6;}
+        button, img { border:0 none; background-color:transparent; }
+        .hidden {display:none !important;}
+
+        /* globe css */
+        html,
+        body {height:100%;}
+        body {font:12px/1.5 "consolas","\5FAE\8F6F\96C5\9ED1";-webkit-text-size-adjust:none;}
+        code,pre {font-family:inherit;}
+        code {margin:0 3px;}
+        pre {margin:8px 0;padding:1em;background-color:#f9f9f9;border:1px solid #d0d0d0;box-shadow:0 0 2px #d0d0d0;}
+        pre span {color:#AC5820;font-family:inherit;}
+        .wrap-in header {margin:15px 0 8px;overflow:hidden;color:#444;font-size:16px;}
+        .main {width:60%;margin:0 auto;color:#666;}
+        dt {margin:8px 0;color:#404040;font-size:14px;font-weight:bold;}
+
+        /* layout css */
+        .wrap-in {overflow:hidden;}
+        .sidebar {position:fixed;left:0px;top:0px;width:200px;padding:20px;}
+        /*.logo a {display:block;height:48px;width:180px;background:url(images/zw_logo.jpg) no-repeat 0 0;text-indent:-9999px;background-size: 100%;}*/
+        .hint {margin:10px 0;}
+        .sidebar .hint {color:#4d4d4d;font-size:10px;font-family:arial;line-height:1.2;text-transform:uppercase;text-shadow:1px 1px #fff;}
+        .navi ul {margin-top:16px;}
+        .navi li {padding:2px 0;overflow:hidden;}
+        .navi a {display:block;float:left;margin-right:5px;outline:none;}
+        .navi .active { color:#0063a6; }
+        .navi .icon {float:right;margin:2px 0 0 3px;}
+        .navi .icon-home {margin-right:1px;}
+        .navi li strong {display:inline-block;min-width:34px;}
+        .nav-bg {position:fixed;left:0px;top:0px;z-index:-1;height:100%;width:240px;background:#f2f2f2; box-shadow: 1px 1px 5px #ccc;}
+        .version {margin:10px 0;color:#4e4e4e;}
+
+        /* content css */
+        #container {margin-left:240px;overflow:hidden;}
+        .main {padding:0 2em 1.5em;}
+        .main h2 {float:left;margin-right:5px;}
+        .sect {float:right;margin-left:5px;}
+        .order {margin:0 0 8px 30px;list-style:decimal outside;}
+        .order li,
+        .section p {padding:2px 0;}
+        .section dt {margin-top:10px;}
+        .data-table td {padding:3px 5px;border:1px solid #ddd;}
+        .data-table tr:nth-child(odd) td {background-color:#f9f9f9;}
+        .data-table tr:hover td {background-color:#f5f5f5;}
+        .data-table .mark {font-family:"arial";}
+
+        /* dot line css */
+        .dot-line {display:block;height:3px;margin-top:12px;overflow:hidden;opacity:.6;border-top: 2px dotted #D0D0D0;}
+        .dot-blue {margin-top:10px;opacity:.8;border-top: 2px dotted #5ca3d2;}
+
+        /* icon css */
+        .icon {font-size: 15px; color:#5ca3d2;}
+
+        .demo .icon-hand-right { float:left; margin:2px 2px 0 0; }
+
+        /* button */
+        .btn { background:/* url("images/x_bg.png")*/ repeat-x scroll 0 0 transparent; border: 1px solid #CCCCCC; border-radius: 3px 3px 3px 3px; color: #333333; cursor: pointer; display: inline-block; font-family: inherit; line-height: 18px; padding: 4px 10px; text-align: center; vertical-align: middle; }
+        .btn:hover { background-position: 0 -46px; color:#333; }
+        .btn-small { line-height: 14px; }
+        .btn-major { background-position: 0 -152px; border: 1px solid #276DDD; color: #FFFFFF; }
+        .btn-major:hover { background-position: 0 -198px; color:#fff; }
+
+        /* code */
+        .prettyprint { border-radius:3px; }
+
+        /*add by zhengxinshuo 2016.9.2*/
+        .add-h2 { font-size: 24px; }
+        .add-span { color:#666; }
+        .css-style dt { font-size: 21px;}
+        .css-style dd { margin-bottom: 30px; }
+
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="wrap-in">
+        <div class="container">
+            <div class="main">
+                <div id="description">
+                    <section id="csscode" class="section css-style">
+                <header>
+                    <h2 class="add-h2">CSS样式简写</h2>
+                    <span class="sect">§ ##</span>
+                    <span class="dot-line"></span>
+                </header>
+                <dl>
+                    <dt>color</dt>
+                    <dd>
+                        <pre>
+.selector {
+    color:#ee7733;
+}
+
+<span>简写后 ：</span>
+
+.selector {
+    color:#e73;     //用16进制书写时，如果每种颜色的值相同，就可以写成一个。如#113366 -- #136
+}
+                        </pre>
+                    </dd>
+                    <dt>margin</dt>
+                    <dd>
+                                        <pre>
+.selector {
+    margin-top:1px;
+    margin-right:2px;
+    margin-bottom:3px;
+    margin-left:4px;
+}
+
+<span>简写后 ：</span>
+
+.selector {
+    margin:1px 2px 3px 4px ; //对应 top right bottom left
+}</pre>
+                        <p>如果取值有重复，可以合并对应的值，合并规则如下</p>
+                        <pre>
+.selector {
+    margin:1px;              //4个值相同
+    margin:1px 2px;          //上下边距都为1px，左右边距均为2px，等同于margin:1px 2px 1px 2px
+    margin:1px 2px 3px;      //右边距和左边距相同，等同于margin:1px 2px 3px 2px;
+}</pre>
+                    </dd>
+                    <dt>padding</dt>
+                    <dd>
+                        <pre>
+.selector {
+    padding:1px 2px 3px 4px ;  //top right bottom left  简写规则同margin
+}</pre>
+                    </dd>
+                    <dt>border</dt>
+                    <dd>
+                        <pre>
+.selector {
+    border-width;1px;
+    border-style:solid;
+    border-color:#666;
+}
+
+<span>简写后 ：</span>
+
+.selector {
+    border:1px solid #666;      //按照width、style和color的顺序简写,style不能省略，width和color不写时按照默认样式
+}
+                        </pre>
+                        <p>可以对每条边采用缩写</p>
+                        <pre>
+ .selector {
+     border-top:4px solid #333;
+     border-right:3px solid #666;
+     border-bottom:3px solid #666;
+     border-left:4px solid #333;
+}
+                        </pre>
+                        <p>也可以对每个属性采用缩写</p>
+                        <pre>
+ .selector {
+     border-width：1px 2px 3px;       //最多可用四个值，缩写规则类似盒子大小的缩写，下同
+     border-style：solid dashed dotted groove;
+     border-color:red blue white black;
+}
+                        </pre>
+                    </dd>
+                    <dt>outline</dt>
+                    <dd>
+                        <pre>
+ .selector {
+     outline-width: 1px
+     outline-style: solid
+     outline-color: red ;
+
+ <span>css3新增属性</span>
+     outline-offset:10px;
+}
+
+<span>简写后 :</span>
+
+ .selector {
+     outline: 1px solid red 10px;
+}</pre>
+                    </dd>
+                    <dt>background</dt>
+                    <dd>
+                        <pre>
+.selector {
+    background-color: red;
+    background-image:url("");
+    background-repeat: repeat || repeat-x || repeat-y || no-repeat;
+    background-position: X Y;
+    background-attachment: scroll || fixed;
+
+<span>css3新增属性</span>
+    background-size: 100% 100%      //对应x，y轴
+    background-clip: padding-box || border-box || content-box;
+    background-origin: padding-box || border-box || content-box;
+}
+
+<span>简写后 :</span>
+
+<span>css2</span>
+.selector {
+    background: red url("") top left no-repeat scroll;
+}
+
+<span>css3</span>
+.selector {
+    background: background-image || background-position/background-size ||
+                background-repeat || background-attachment || background-clip ||
+                background-origin || background-color
+}
+//注意：background-size 必须写在background-position后面，且用"/"隔开
+        避免部分浏览器不兼容css3属性，最后将css3属性分开写，并加上各自内核前缀
+                        </pre>
+
+
+                    </dd>
+                    <dt>font</dt>
+                    <dd>
+                        <pre>
+.selector {
+    font-style: normal || italic || oblique;
+    font-variant:normal || small-caps;
+    font-weight: normal || bold || bolder || || lighter || (100-900);
+    font-size: (number+unit) || (xx-small - xx-large);
+    line-height: normal || (number+unit);
+    font-family:name;
+}
+                        </pre>
+                        <p >font 的简写必须严谨小心，按照一定的规则及顺序，否则容易出错，规则如下</p>
+                        <pre>
+.selector {
+    font:italic small-caps bold         34px/1.5      "Arial Black"
+           |         |       |              |                |
+         style    variant  weight  font-size/line-height  family
+}
+//style variant weihgt为可选属性，书写时必须前置，放在font-size和font-family前面
+//font-size font-family为必选属性，任一属性不填写都会导致整行失效
+//line-height为可选属性，书写时必须跟在font-size后面，且用"/"分隔
+                        </pre>
+                    </dd>
+                    <dt>list-style</dt>
+                    <dd>
+                        <pre>
+.selector {
+    list-style-type:none || disc || circle || square ||
+                            decimal || lower-alpha || upper-alpha || lower-roman || upper-roman
+    list-style-position:  inside || outside || inherit
+    list-style-image:  (url) || none || inherit
+}
+
+<span>简写后</span>
+
+.selector {
+    disc outside none;  //如果url存在，则图片的优先级比list-style-type高，会覆盖其样式
+}
+                        </pre>
+                    </dd>
+                    <dt>border-radius( css3 )</dt>
+                    <dd>
+                        <pre>
+.selector {
+    -moz-border-radius-bottomleft:6px;
+    -moz-border-radius-topleft:6px;
+    -moz-border-radius-topright:6px;
+    -webkit-border-bottom-left-radius:6px;
+    -webkit-border-top-left-radius:6px;
+    -webkit-border-top-right-radius:6px;
+    border-bottom-left-radius:6px;
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+}
+
+<span>简写后</span>
+
+.selector {
+    -moz-border-radius:0 6px 6px;
+    -webkit-border-radius:0 6px 6px;
+    border-radius:0 6px 6px;
+}
+                        </pre>
+                    </dd>
+                    <dt>transition ( css3 )</dt>
+                    <dd>
+                        <pre>
+.selector {
+    -webkit-transition-property: width;
+    -webkit-transition-duration:.5s;
+    -webkit-transition-timing-function: ease-in;
+    -webkit-transition-delay: .18s;
+    transition-property: width;
+    transition-duration:0.5s;
+    transition-timing-function: ease-in;
+  	transition-delay:0s;
+}
+
+<span>简写后</span>
+.selector {
+    -webkit-transition: width .5s ease-in .18s;
+    transition: width; width .5s ease-in .18s;
+}
+                        </pre>
+                    </dd>
+                    <dt>animation ( css3 )</dt>
+                    <dd>
+                        <pre>
+.selector {
+    -webkit-animation-name:around;
+    -webkit-animation-duration: 10s;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-delay: 1s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-fill-mode: forwards;
+    animation-name:around;
+    animation-duration: 10s;
+    animation-timing-function: ease;
+    animation-delay: 1s;
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
+    animation-fill-mode: forwards;
+}
+
+<span>简写后</span>
+
+.selector {
+    -webkit-animation:aroud 10s ease 1s infinite alternate forwards;  //对应动画名||持续时间||播放方式
+}                                                                          ||延迟时间播放次数||播放方向
+                                                                          ||动画时间外属性</pre>
+                    </dd>
+                    <dt>column ( css3 )</dt>
+                    <dd>
+                        <pre>
+.selector {
+    -webkit-column-width:200px;  //列宽度
+    -moz-column-width:200px;
+    -o-column-width:200px;
+    -ms-column-width:200px;
+    column-width:200px;
+    -webkit-column-count:3;      //列数目
+    -moz-column-count:3;
+    -o-column-count:3;
+    -ms-column-count:3;
+    column-count:3;
+}
+
+<span>简写后</span>
+
+ .selector {
+     -webkit-column:200px 3; //对应width||count
+     -moz-column:200px 3;
+     -o-column:200px 3;
+     -ms-column:200px 3;
+}
+                        </pre>
+                        <pre>
+ .selector {
+     -webkit-column-rule-width:1px;
+     -webkit-column-rule-style:solid;
+     -webkit-column-rule-color:red;
+     column-rule-width:1px;
+     column-rule-style:sole;
+     column-rule-color:red;
+}
+
+<span>简写后</span>
+
+.selector {
+    -webkit-column-rule:1px solid red;    //同border差不多
+    column-rule:1px solid red;
+}
+                        </pre>
+                    </dd>
+                    <dt></dt>
+                </dl>
+            </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

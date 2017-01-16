@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Front-End Javascript Code Guide(Google)</title>
+    <link type="text/css" rel="stylesheet" href="./Front-End Code Guide_files/js_guide.css"/>
+</head>
+<body>
+<div class="entry-content">
+<h2>Front-End Javascript Code Guide(Google 规范)</h2>
+<ol>
+<li>变量声明必须使用var</li>
+<li>Constants使用大写名称，并适当加上@const注释（如果名称已经体现就不用添加了），不要使用const关键字，例：</li>
+<li>记得使用分号结尾，错误例子：
+<pre class="prettyprint"><span class="com">//1.</span><span class="pln">
+</span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">prototype</span><span class="pun">.</span><span class="pln">myMethod </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">42</span><span class="pun">;</span><span class="pln"> </span><span class="pun">}</span><span class="pln"> </span><span class="com">// No semicolon here.</span><span class="pln">
+</span><span class="pun">(</span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="com">// Some initialization code wrapped in a function to create a scope for locals.</span><span class="pln">
+</span><span class="pun">})();</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> x </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="str">'i'</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="str">'j'</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln"> </span><span class="pun">}</span><span class="pln"> </span><span class="com">// No semicolon here.</span><span class="pln">
+</span><span class="com">// 2. Trying to do one thing on Internet Explorer and another on Firefox.</span><span class="pln">
+</span><span class="com">// I know you'd never write code like this, but throw me a bone.</span><span class="pln">
+</span><span class="pun">[</span><span class="pln">normalVersion</span><span class="pun">,</span><span class="pln"> ffVersion</span><span class="pun">][</span><span class="pln">isIE</span><span class="pun">]();</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> THINGS_TO_EAT </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">apples</span><span class="pun">,</span><span class="pln"> oysters</span><span class="pun">,</span><span class="pln"> sprayOnCheese</span><span class="pun">]</span><span class="pln"> </span><span class="com">// No semicolon here.</span><span class="pln">
+</span><span class="com">// 3. conditional execution a la bash</span><span class="pln">
+</span><span class="pun">-</span><span class="lit">1</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> resultOfOperation</span><span class="pun">()</span><span class="pln"> </span><span class="pun">||</span><span class="pln"> </span><span class="kwd">die</span><span class="pun">();</span></pre>
+    <p>错误1. ；错误2. 解释为x={}[][]();即尝试执行对象的某个方法；错误3. 解释为THINGS_TO_EAT = […]-1 == resultOfOperation() || die();即赋值为die()；</p></li>
+<li>随意使用嵌套函数</li>
+<li>块级域中不用使用函数声明形式（不符合标准），应该这样处理：
+<pre class="prettyprint"><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> foo </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+</li>
+<li>随意使用自定义exception</li>
+<li>原生类型不要使用包装对象的构造函数来进行声明，但是可以用来进行类型转换如：
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> x </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Boolean</span><span class="pun">(</span><span class="lit">0</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  alert</span><span class="pun">(</span><span class="str">'hi'</span><span class="pun">);</span><span class="pln">  </span><span class="com">// This will never be alerted.</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+</span><span class="kwd">typeof</span><span class="pln"> </span><span class="typ">Boolean</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="str">'boolean'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">typeof</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Boolean</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="str">'object'</span><span class="pun">;</span></pre>
+</li>
+<li>不推荐多重继承，可以使用<a href="http://code.google.com/closure/library/">the Closure Library</a></li>
+<li>闭包，注意dom元素的引用计数问题，例：function有对element的引用，而element也有对function的引用
+<pre class="prettyprint"><span class="kwd">function</span><span class="pln"> foo</span><span class="pun">(</span><span class="pln">element</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  element</span><span class="pun">.</span><span class="pln">onclick </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">/* uses a and b */</span><span class="pln"> </span><span class="pun">};</span><span class="pln">
+</span><span class="pun">}</span></pre>
+</li>
+<li>eval只用于rpc解码json，注意</li>
+<li>不要使用with</li>
+<li>for in 不要用在遍历array上，只能用在object上</li>
+<li>关联数组如hash，map应该使用object实现而不是array</li>
+<li>多行的字符串字面量，应该使用+进行字符串拼接，而不是进行换行（不符合标准）</li>
+<li>array与object创建使用字面量而不是包装构造函数</li>
+<li>不要改变内置对象的prototype</li>
+<li>不要使用ie的条件注释
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> f </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">/*@cc_on if (@_jscript) { return 2* @*/</span><span class="pln">  </span><span class="lit">3</span><span class="pun">;</span><span class="pln"> </span><span class="com">/*@ } @*/</span><span class="pln">
+</span><span class="pun">};</span></pre>
+</li>
+<li>命名：<code>functionNamesLikeThis</code>,<code>variableNamesLikeThis</code>,<code>ClassNamesLikeThis</code>,<code>EnumNamesLikeThis</code>,?<code>methodNamesLikeThis</code>, and<code>SYMBOLIC_CONSTANTS_LIKE_THIS</code>.</li>
+<li>私有成员使用结尾下划线(trailing undercore)，保护成员不使用结尾下划线；可选参数以opt_开头，如果函数有可变参数，则最后一个参数命名为var_args，但不要使用他而要使用arguments数组进行访问；不要使用get和set关键字，如果要写则使用getFoo();setFoo(val);isFoo()的形式；</li>
+<li>永远要为项目添加一个命名空间，不要为外部引入的代码再引入自定义的成员，如果必要则应该使用外部代码暴露的api</li>
+<li>为过长的类型名使用别名引用，例如
+<pre class="prettyprint"><span class="com">/**
+ * @constructor
+ */</span><span class="pln">
+some</span><span class="pun">.</span><span class="kwd">long</span><span class="pun">.</span><span class="kwd">namespace</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">};</span><span class="pln">
+
+</span><span class="com">/**
+ * @param {some.long.namespace.MyClass} a
+ */</span><span class="pln">
+some</span><span class="pun">.</span><span class="kwd">long</span><span class="pun">.</span><span class="kwd">namespace</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">staticHelper </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">a</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="pun">...</span><span class="pln">
+</span><span class="pun">};</span><span class="pln">
+
+myapp</span><span class="pun">.</span><span class="pln">main </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> some</span><span class="pun">.</span><span class="kwd">long</span><span class="pun">.</span><span class="kwd">namespace</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> staticHelper </span><span class="pun">=</span><span class="pln"> some</span><span class="pun">.</span><span class="kwd">long</span><span class="pun">.</span><span class="kwd">namespace</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">staticHelper</span><span class="pun">;</span><span class="pln">
+  staticHelper</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">());</span><span class="pln">
+</span><span class="pun">};</span></pre>
+</li>
+<li>但是不要为命名空间使用别名；同时避免访问别名类型的属性，除非其是enum类型；也不要在全局域中使用别名，只能在函数内部使用</li>
+<li>文件命名统一使用小写”.js”，同时推荐”-“而不是”_”</li>
+<li>自定义的toString方法必须保证1.正确性；2.没有副作用；否则很容易在assert时出错</li>
+<li>可以推迟初始化</li>
+<li>总是使用显式的域，例如不要依赖window一定存在于域中</li>
+<li>代码规范：基本是C++规范；”{“总是开始在一行上；可以单行初始化数组或对象；多行的数组或对象初始化应该要缩进2空格，属性与值都不用对齐；每行80单词，如果超过则注意函数参数的排放；函数中调用函数缩进方式例子如下：
+<pre class="prettyprint"><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">veryLongFunctionNameA</span><span class="pun">(</span><span class="pln">
+        veryLongArgumentName</span><span class="pun">)</span><span class="pln"> </span><span class="pun">||</span><span class="pln">
+    veryLongFunctionNameB</span><span class="pun">(</span><span class="pln">
+    veryLongArgumentName</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  veryLongFunctionNameC</span><span class="pun">(</span><span class="pln">veryLongFunctionNameD</span><span class="pun">(</span><span class="pln">
+      veryLongFunctioNameE</span><span class="pun">(</span><span class="pln">
+          veryLongFunctionNameF</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span></pre>
+    <p>匿名函数内缩进为两个空格；事实上，除了数组或对象初始化，匿名函数内，其他情况要么与上行左边对齐，要么缩进4个空格！；针对操作符缩进：</p>
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> x </span><span class="pun">=</span><span class="pln"> a </span><span class="pun">?</span><span class="pln"> b </span><span class="pun">:</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">  </span><span class="com">// All on one line if it will fit.</span><span class="pln">
+
+</span><span class="com">// Indentation +4 is OK.</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> a </span><span class="pun">?</span><span class="pln">
+    longButSimpleOperandB </span><span class="pun">:</span><span class="pln"> longButSimpleOperandC</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// Indenting to the line position of the first operand is also OK.</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> z </span><span class="pun">=</span><span class="pln"> a </span><span class="pun">?</span><span class="pln">
+        moreComplicatedB </span><span class="pun">:</span><span class="pln">
+        moreComplicatedC</span><span class="pun">;</span></pre>
+</li>
+<li>不要在如delete，typeof，void或是return，throw后面添加使用括号（Parentheses）</li>
+<li>字符串相对于双引号，推荐使用单引号</li>
+<li>可见性规范：推荐使用jsdoc的@private以及@protected；@private与c语言中static类似，同时子类不能访问；@protected中子类可以访问</li>
+<li>js类型规范：
+<div>
+<div>js类型规范：支持<a href="http://wiki.ecmascript.org/doku.php?id=spec:spec">JS2</a>风格类型与JS1.x类型：</div>
+<div>JS2规范的类型语言：</div>
+<div>
+<table border="1" cellpadding="4">
+    <tbody>
+    <tr>
+        <th>操作名称</th>
+        <th>语法</th>
+        <th>描述</th>
+        <th>过期语法</th>
+    </tr>
+    <tr>
+        <td>Type Name</td>
+        <td><code>{boolean}</code>,&nbsp;<code>{Window}</code>,&nbsp;<code>{goog.ui.Menu}</code></td>
+        <td>类型名称</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Type Application</td>
+        <td><code>{Array.&lt;string&gt;}</code><br>
+            An array of strings.<code>{Object.&lt;string, number&gt;}</code><br>
+            An object in which the keys are strings and the values are numbers.</td>
+        <td>为类型增加参数类型，类似于java</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Type Union</td>
+        <td><code>{(number|boolean)}</code><br>
+            A number or a boolean.</td>
+        <td>说明值为类型A或类型B</td>
+        <td><code>{(number,boolean)}</code>,<code>{number|boolean}</code>,<code>{(number||boolean)}</code></td>
+    </tr>
+    <tr>
+        <td>Record Type</td>
+        <td><code>{{myNum: number, myObject}}</code><br>
+            An anonymous type with the given type members.</td>
+        <td>说明值的成员类型固定<code>注意大括号也是成员的一部分，例如：由对象构成的</code><code>Array</code>&nbsp;拥有<code>length</code>&nbsp;属性, 你应该写为&nbsp;<code>Array.&lt;{length}&gt;</code>.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Nullable type</td>
+        <td><code>{?number}</code><br>
+            A number or NULL.</td>
+        <td>说明值为类型A or&nbsp;<code>null</code>. 默认所有对象类型均为nullable&nbsp;注意&nbsp;Function Type不是nullable.</td>
+        <td><code>{number?}</code></td>
+    </tr>
+    <tr>
+        <td>Non-nullable type</td>
+        <td><code>{!Object}</code><br>
+            An Object, but never the&nbsp;<code>null</code>&nbsp;value.</td>
+        <td>说明值要么是类型A要么not null. 默认所有的值类型(boolean, number, string, and undefined) 都不是nullable.</td>
+        <td><code>{Object!}</code></td>
+    </tr>
+    <tr>
+        <td>Function Type</td>
+        <td><code>{function(string, boolean)}</code><br>
+            A function that takes two arguments (a string and a boolean), and has an unknown return value.</td>
+        <td>标明函数</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Function Return Type</td>
+        <td><code>{function(): number}</code><br>
+            A function that takes no arguments and returns a number.</td>
+        <td>标明函数返回类型</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Function&nbsp;<code>this</code>&nbsp;Type</td>
+        <td><code>{function(this:goog.ui.Menu, string)}</code><br>
+            A function that takes one argument (a string), and executes in the context of a goog.ui.Menu.</td>
+        <td>标明函数上下文的类型</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Function&nbsp;<code>new</code>&nbsp;Type</td>
+        <td><code>{function(new:goog.ui.Menu, string)}</code><br>
+            A constructor that takes one argument (a string), and creates a new instance of goog.ui.Menu when called with the ‘new’ keyword.</td>
+        <td>标明函数构造器的类型</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Variable arguments</td>
+        <td><code>{function(string, ...[number]): number}</code><br>
+            A function that takes one argument (a string), and then a variable number of arguments that must be numbers.</td>
+        <td>标明函数参数</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a name="var-args-annotation"></a>Variable arguments (in<code>@param</code>annotations)</td>
+        <td><code>@param {...number} var_args</code><br>
+            A variable number of arguments to an annotated function.</td>
+        <td>标明函数参数可变</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Function&nbsp;<a href="http://google-styleguide.googlecode.com/svn/trunk/optional">optional arguments</a></td>
+        <td><code>{function(?string=, number=)}</code><br>
+            A function that takes one optional, nullable string and one optional number as arguments. The&nbsp;<code>=</code>&nbsp;syntax is only for&nbsp;<code>function</code>&nbsp;type declarations.</td>
+        <td>标明可选的函数参数</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a name="optional-arg-annotation"></a>Function&nbsp;<a href="http://google-styleguide.googlecode.com/svn/trunk/optional">optional arguments</a>&nbsp;(in<code>@param</code>annotations)</td>
+        <td><code>@param {number=} opt_argument</code><br>
+            An optional parameter of type&nbsp;<code>number</code>.</td>
+        <td>标明函数接收可变参数</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>The ALL type</td>
+        <td><code>{*}</code></td>
+        <td>说明变量接受任何类型</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>The UNKNOWN type</td>
+        <td><code>{?}</code></td>
+        <td>说明变量可使用任何类型且编译器不应对类型进行检查</td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<p>Types in JavaScript</p>
+<table border="1" cellpadding="4">
+<tbody>
+<tr>
+    <th>Type Example</th>
+    <th>Value Examples</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>number</td>
+    <td>
+<pre class="prettyprint"><span class="lit">1</span><span class="pln">
+</span><span class="lit">1.0</span><span class="pln">
+</span><span class="pun">-</span><span class="lit">5</span><span class="pln">
+</span><span class="lit">1e5</span><span class="pln">
+</span><span class="typ">Math</span><span class="pun">.</span><span class="pln">PI</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>Number</td>
+    <td>
+        <pre class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="typ">Number</span><span class="pun">(</span><span class="kwd">true</span><span class="pun">)</span></pre>
+    </td>
+    <td><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Wrapper_objects_for_primitive_types">Number object</a></td>
+</tr>
+<tr>
+    <td>string</td>
+    <td>
+<pre class="prettyprint"><span class="str">'Hello'</span><span class="pln">
+</span><span class="str">"World"</span><span class="pln">
+</span><span class="typ">String</span><span class="pun">(</span><span class="lit">42</span><span class="pun">)</span></pre>
+    </td>
+    <td>String value</td>
+</tr>
+<tr>
+    <td>String</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="typ">String</span><span class="pun">(</span><span class="str">'Hello'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">String</span><span class="pun">(</span><span class="lit">42</span><span class="pun">)</span></pre>
+    </td>
+    <td><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Wrapper_objects_for_primitive_types">String object</a></td>
+</tr>
+<tr>
+    <td>boolean</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">true</span><span class="pln">
+</span><span class="kwd">false</span><span class="pln">
+</span><span class="typ">Boolean</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)</span></pre>
+    </td>
+    <td>Boolean value</td>
+</tr>
+<tr>
+    <td>Boolean</td>
+    <td>
+        <pre class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="typ">Boolean</span><span class="pun">(</span><span class="kwd">true</span><span class="pun">)</span></pre>
+    </td>
+    <td><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Wrapper_objects_for_primitive_types">Boolean object</a></td>
+</tr>
+<tr>
+    <td>RegExp</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="typ">RegExp</span><span class="pun">(</span><span class="str">'hello'</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">/</span><span class="pln">world</span><span class="pun">/</span><span class="pln">g</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>Date</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">new</span><span class="pln"> </span><span class="typ">Date</span><span class="pln">
+</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Date</span><span class="pun">()</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>null</td>
+    <td>
+        <pre class="prettyprint"><span class="kwd">null</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>undefined</td>
+    <td>
+        <pre class="prettyprint"><span class="kwd">undefined</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>void</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">function</span><span class="pln"> f</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+    </td>
+    <td>No return value</td>
+</tr>
+<tr>
+    <td>Array</td>
+    <td>
+<pre class="prettyprint"><span class="pun">[</span><span class="str">'foo'</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.3</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">]</span><span class="pln">
+</span><span class="pun">[]</span></pre>
+    </td>
+    <td>Untyped Array</td>
+</tr>
+<tr>
+    <td>Array.&lt;number&gt;</td>
+    <td>
+        <pre class="prettyprint"><span class="pun">[</span><span class="lit">11</span><span class="pun">,</span><span class="pln"> </span><span class="lit">22</span><span class="pun">,</span><span class="pln"> </span><span class="lit">33</span><span class="pun">]</span></pre>
+    </td>
+    <td>An Array of numbers</td>
+</tr>
+<tr>
+    <td>Array.&lt;Array.&lt;string&gt;&gt;</td>
+    <td>
+        <pre class="prettyprint"><span class="pun">[[</span><span class="str">'one'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'two'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'three'</span><span class="pun">],</span><span class="pln"> </span><span class="pun">[</span><span class="str">'foo'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'bar'</span><span class="pun">]]</span></pre>
+    </td>
+    <td>Array of Arrays of strings</td>
+</tr>
+<tr>
+    <td>Object</td>
+    <td>
+<pre class="prettyprint"><span class="pun">{}</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">foo</span><span class="pun">:</span><span class="pln"> </span><span class="str">'abc'</span><span class="pun">,</span><span class="pln"> bar</span><span class="pun">:</span><span class="pln"> </span><span class="lit">123</span><span class="pun">,</span><span class="pln"> baz</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">}</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>Object.&lt;string&gt;</td>
+    <td>
+        <pre class="prettyprint"><span class="pun">{</span><span class="str">'foo'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'bar'</span><span class="pun">}</span></pre>
+    </td>
+    <td>An Object in which the values are strings.</td>
+</tr>
+<tr>
+    <td>Object.&lt;number, string&gt;</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> obj </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{};</span><span class="pln">
+obj</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'bar'</span><span class="pun">;</span></pre>
+    </td>
+    <td>An Object in which the keys are numbers and the values are strings.Note that in JavaScript, the keys are always implicitly coverted to strings, so&nbsp;<code>obj['1'] == obj[1]</code>. So the key wil always be a string in for…in loops. But the compiler will verify the type if the key when indexing into the object.</td>
+</tr>
+<tr>
+    <td>Function</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">function</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> x </span><span class="pun">*</span><span class="pln"> y</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+    </td>
+    <td><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Wrapper_objects_for_primitive_types">Function object</a></td>
+</tr>
+<tr>
+    <td>function(number, number): number</td>
+    <td>
+<pre class="prettyprint"><span class="kwd">function</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> x </span><span class="pun">*</span><span class="pln"> y</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+    </td>
+    <td>function value</td>
+</tr>
+<tr>
+    <td><a name="constructor-tag"></a>SomeClass</td>
+    <td>
+<pre class="prettyprint"><span class="com">/** @constructor */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="typ">SomeClass</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+
+</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">SomeClass</span><span class="pun">();</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>SomeInterface</td>
+    <td>
+<pre class="prettyprint"><span class="com">/** @interface */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="typ">SomeInterface</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+
+</span><span class="typ">SomeInterface</span><span class="pun">.</span><span class="pln">prototype</span><span class="pun">.</span><span class="pln">draw </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{};</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>project.MyClass</td>
+    <td>
+<pre class="prettyprint"><span class="com">/** @constructor */</span><span class="pln">
+project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+
+</span><span class="kwd">new</span><span class="pln"> project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">()</span></pre>
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td>project.MyEnum</td>
+    <td>
+<pre class="prettyprint"><span class="com">/** @enum {string} */</span><span class="pln">
+project</span><span class="pun">.</span><span class="typ">MyEnum</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  BLUE</span><span class="pun">:</span><span class="pln"> </span><span class="str">'#0000dd'</span><span class="pun">,</span><span class="pln">
+  RED</span><span class="pun">:</span><span class="pln"> </span><span class="str">'#dd0000'</span><span class="pln">
+</span><span class="pun">};</span></pre>
+    </td>
+    <td><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#enums">Enumeration</a></td>
+</tr>
+<tr>
+    <td>Element</td>
+    <td>
+        <pre class="prettyprint"><span class="pln">document</span><span class="pun">.</span><span class="pln">createElement</span><span class="pun">(</span><span class="str">'div'</span><span class="pun">)</span></pre>
+    </td>
+    <td>Elements in the DOM.</td>
+</tr>
+<tr>
+    <td>Node</td>
+    <td>
+        <pre class="prettyprint"><span class="pln">document</span><span class="pun">.</span><span class="pln">body</span><span class="pun">.</span><span class="pln">firstChild</span></pre>
+    </td>
+    <td>Nodes in the DOM.</td>
+</tr>
+<tr>
+    <td>HTMLInputElement</td>
+    <td>
+        <pre class="prettyprint"><span class="pln">htmlDocument</span><span class="pun">.</span><span class="pln">getElementsByTagName</span><span class="pun">(</span><span class="str">'input'</span><span class="pun">)[</span><span class="lit">0</span><span class="pun">]</span></pre>
+    </td>
+    <td>A specific type of DOM element.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div></div>
+<div>如果不能使用类型检查来表明，则可以用注释来表明类型并可以将注释写在括号中。</div>
+<div>
+<pre class="prettyprint"><span class="com">/** @type {number} */</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">(</span><span class="com">/** @type {number} */</span><span class="pln"> x</span><span class="pun">)</span></pre>
+</div>
+<div>js中必须区别可选（optional），可空（nullable），及未定义（undefined）的函数参数和类属性。</div>
+<div>对象类型（是js中的引用类型）默认是可空，函数类型默认就不是可空</div>
+<div>
+<pre class="prettyprint"><span class="com">/**
+ * Some class, initialized with a value.
+ * @param {Object} value Some value.
+ * @constructor
+ */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">(</span><span class="pln">value</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">/**
+   * Some value.
+   * @type {Object}
+   * @private
+   */</span><span class="pln">
+  </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">myValue_ </span><span class="pun">=</span><span class="pln"> value</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+</div>
+<div>这告诉编译器myValue_属性赋值为对象类型（即可空），如果myValue_属性不可为空，则应该申明：</div>
+<div>
+<pre class="prettyprint"><span class="com">/**
+ * Some class, initialized with a non-null value.
+ * @param {!Object} value Some value.
+ * @constructor
+ */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">(</span><span class="pln">value</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">/**
+   * Some value.
+   * @type {!Object}
+   * @private
+   */</span><span class="pln">
+  </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">myValue_ </span><span class="pun">=</span><span class="pln"> value</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+</div>
+<div>可选函数参数可能在运行时未定义，故而如果将它们赋值给类属性，这些参数必须申明</div>
+<div>
+<pre class="prettyprint"><span class="com">/**
+ * Some class, initialized with an optional value.
+ * @param {Object=} opt_value Some value (optional).
+ * @constructor
+ */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">(</span><span class="pln">opt_value</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">/**
+   * Some value.
+   * @type {Object|undefined}
+   * @private
+   */</span><span class="pln">
+  </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">myValue_ </span><span class="pun">=</span><span class="pln"> opt_value</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+</div>
+<div>这告诉编译器myValue_属性赋值为对象，可空或保持为未定义，注意这里opt_value被申明为{Object=}，而不是{Object|undefined}，这是因为这样申明不容易阅读。注意可空与未定义是正交属性，下面的四个申明并不相同：</div>
+<div>
+    <pre class="prettyprint"><span class="com">/** * Takes four arguments, two of which are nullable, and two of which are * optional. * @param {!Object} nonNull Mandatory (must not be undefined), must not be null. * @param {Object} mayBeNull Mandatory (must not be undefined), may be null. * @param {!Object=} opt_nonNull Optional (may be undefined), but if present, * must not be null! * @param {Object=} opt_mayBeNull Optional (may be undefined), may be null. */</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> strangeButTrue</span><span class="pun">(</span><span class="pln">nonNull</span><span class="pun">,</span><span class="pln"> mayBeNull</span><span class="pun">,</span><span class="pln"> opt_nonNull</span><span class="pun">,</span><span class="pln"> opt_mayBeNull</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">// ... };</span></pre>
+</div>
+<div>可以使用typedef来定义复杂的类型：</div>
+<div>
+<pre class="prettyprint"><span class="com">/** @typedef {(string|Element|Text|Array.&lt;Element&gt;|Array.&lt;Text&gt;)} */</span><span class="pln">
+goog</span><span class="pun">.</span><span class="typ">ElementContent</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">/**
+ * @param {string} tagName
+ * @param {goog.ElementContent} contents
+ * @return {!Element}
+ */</span><span class="pln">
+goog</span><span class="pun">.</span><span class="pln">createElement </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">tagName</span><span class="pun">,</span><span class="pln"> contents</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">...</span><span class="pln">
+</span><span class="pun">};</span></pre>
+</div>
+<div>模板类型被编译器受限，只能通过匿名函数推测this的类型，以及this参数是否缺少。</div>
+<div>
+<pre class="prettyprint"><span class="com">/**
+ * @param {function(this:T, ...)} fn
+ * @param {T} thisObj
+ * @param {...*} var_args
+ * @template T
+ */</span><span class="pln">
+goog</span><span class="pun">.</span><span class="pln">bind </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">fn</span><span class="pun">,</span><span class="pln"> thisObj</span><span class="pun">,</span><span class="pln"> var_args</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">...</span><span class="pln">
+</span><span class="pun">};</span><span class="pln">
+</span><span class="com">// Possibly generates a missing property warning.</span><span class="pln">
+goog</span><span class="pun">.</span><span class="pln">bind</span><span class="pun">(</span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">someProperty</span><span class="pun">;</span><span class="pln"> </span><span class="pun">},</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">SomeClass</span><span class="pun">());</span><span class="pln">
+</span><span class="com">// Generates an undefined this warning.</span><span class="pln">
+goog</span><span class="pun">.</span><span class="pln">bind</span><span class="pun">(</span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">someProperty</span><span class="pun">;</span><span class="pln"> </span><span class="pun">});</span></pre>
+</div>
+<div>注意在适当地方加入类型注释，</div>
+</div>
+</li>
+<li>注释规范：
+    <div>
+        <div>使用JSDoc，语法基本遵守&nbsp;<a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html">JavaDoc</a>；</div>
+        <div>如果需要换行则必须缩进4个空格，但不用缩进@fileoverview命令；</div>
+        <div>
+<pre class="prettyprint"><span class="com">/**
+ * Illustrates line wrapping for long param/return descriptions.
+ * @param {string} foo This is a param with a description too long to fit in
+ *     one line.
+ * @return {number} This returns something that has a description too long to
+ *     fit in one line.
+ */</span><span class="pln">
+project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">prototype</span><span class="pun">.</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">foo</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="lit">5</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">};</span></pre>
+        </div>
+        <div>JSdoc也支持html的标签；</div>
+        <div>
+<pre class="prettyprint"><span class="com">/**
+ * Computes weight based on three factors:
+ * &lt;ul&gt;
+ * &lt;li&gt;items sent
+ * &lt;li&gt;items received
+ * &lt;li&gt;last timestamp
+ * &lt;/ul&gt;
+ */</span></pre>
+        </div>
+        <div>文件最开头的注释；</div>
+        <div>
+<pre class="prettyprint"><span class="com">// Copyright 2009 Google Inc. All Rights Reserved.</span><span class="pln">
+
+</span><span class="com">/**
+ * @fileoverview Description of file, its uses and information
+ * about its dependencies.
+ * @author user@google.com (Firstname Lastname)
+ */</span></pre>
+        </div>
+        <div>类必须有相应的注释并使用相应的类型tag；</div>
+        <div>
+<pre class="prettyprint"><span class="com">/**
+ * Class making something fun and easy.
+ * @param {string} arg1 An argument that makes this more interesting.
+ * @param {Array.&lt;number&gt;} arg2 List of numbers to be processed.
+ * @constructor
+ * @extends {goog.Disposable}
+ */</span><span class="pln">
+project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">arg1</span><span class="pun">,</span><span class="pln"> arg2</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// ...</span><span class="pln">
+</span><span class="pun">};</span><span class="pln">
+goog</span><span class="pun">.</span><span class="pln">inherits</span><span class="pun">(</span><span class="pln">project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">,</span><span class="pln"> goog</span><span class="pun">.</span><span class="typ">Disposable</span><span class="pun">);</span></pre>
+        </div>
+        <div>方法与函数必须提供功能描述与参数，方法的描述必须使用第三人称；对于简单的getter方法可以省略注释；</div>
+        <div>
+<pre class="prettyprint"><span class="com">/**
+ * Operates on an instance of MyClass and returns something.
+ * @param {project.MyClass} obj Instance of MyClass which leads to a long
+ *     comment that needs to be wrapped to two lines.
+ * @return {boolean} Whether something occured.
+ */</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> PR_someMethod</span><span class="pun">(</span><span class="pln">obj</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// ...</span><span class="pln">
+</span><span class="pun">}</span></pre>
+        </div>
+        <div>属性注释；</div>
+        <div>
+<pre class="prettyprint"><span class="com">/**
+ * Maximum number of things per pane.
+ * @type {number}
+ */</span><span class="pln">
+project</span><span class="pun">.</span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">prototype</span><span class="pun">.</span><span class="pln">someProperty </span><span class="pun">=</span><span class="pln"> </span><span class="lit">4</span><span class="pun">;</span></pre>
+        </div>
+    </div>
+</li>
+<li>技巧：
+    <div>
+        <div>关于boolean，下面这些为false</div>
+        <div>
+            <ul>
+                <li><code>null</code></li>
+                <li><code>undefined</code></li>
+                <li><code>''空字符串</code></li>
+                <li><code>数字0</code></li>
+            </ul>
+        </div>
+        <div>但是注意这些为true</div>
+        <div>
+            <ul>
+                <li><code>'0'</code>&nbsp;字符</li>
+                <li><code>[]</code>&nbsp;空数组</li>
+                <li><code>{}</code>&nbsp;空对象</li>
+            </ul>
+        </div>
+        <div>这意味着你可以这样写</div>
+        <div>
+            <pre class="prettyprint"><span class="kwd">while</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></pre>
+        </div>
+        <div>以取代（因为你不期待x是空字符串或是为0）</div>
+        <div>
+            <pre class="prettyprint"><span class="kwd">while</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x </span><span class="pun">!=</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></pre>
+        </div>
+        <div>如果你希望查看字符串是否为空或null，则可以写作</div>
+        <div>
+            <pre class="prettyprint"><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></pre>
+        </div>
+        <div>而不是</div>
+        <div>
+            <pre class="prettyprint"><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">y </span><span class="pun">!=</span><span class="pln"> </span><span class="kwd">null</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> y </span><span class="pun">!=</span><span class="pln"> </span><span class="str">''</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></pre>
+        </div>
+        <div>注意：</div>
+        <div>
+            <ul>
+                <li><code>Boolean('0') == true<br>
+                    '0' != true</code></li>
+                <li><code>0 != null<br>
+                    0 == []<br>
+                    0 == false</code></li>
+                <li><code>Boolean(null) == false<br>
+                    null != true<br>
+                    null != false</code></li>
+                <li><code>Boolean(undefined) == false<br>
+                    undefined != true<br>
+                    undefined != false</code></li>
+                <li><code>Boolean([]) == true<br>
+                    [] != true<br>
+                    [] == false</code></li>
+                <li><code>Boolean({}) == true<br>
+                    {} != true<br>
+                    {} != false</code></li>
+            </ul>
+        </div>
+        <div>使用三目运算符(?:)取代if判断语句，充分利用&amp;&amp;与||运算符来缩短代码</div>
+        <div>使用join()来连接字符串，即通过数组的join方法来连接字符串（主要是因为IE中字符串的+=操作过慢），同时注意数组赋值比push方法更快</div>
+        <div>注意访问node list的length属性本身就是O(n)，即如果遍历使用length属性来进行判断会变为O(n^2)</div>
+        <div>
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> paragraphs </span><span class="pun">=</span><span class="pln"> document</span><span class="pun">.</span><span class="pln">getElementsByTagName</span><span class="pun">(</span><span class="str">'p'</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;</span><span class="pln"> paragraphs</span><span class="pun">.</span><span class="pln">length</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  doSomething</span><span class="pun">(</span><span class="pln">paragraphs</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+        </div>
+        <div>应该写为</div>
+        <div>
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> paragraphs </span><span class="pun">=</span><span class="pln"> document</span><span class="pun">.</span><span class="pln">getElementsByTagName</span><span class="pun">(</span><span class="str">'p'</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> paragraph</span><span class="pun">;</span><span class="pln"> paragraph </span><span class="pun">=</span><span class="pln"> paragraphs</span><span class="pun">[</span><span class="pln">i</span><span class="pun">];</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  doSomething</span><span class="pun">(</span><span class="pln">paragraph</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+        </div>
+        <div>这同样适用于数组的遍历（只要数组元素不会为false），对于子节点的遍历可以写作</div>
+        <div>
+<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> parentNode </span><span class="pun">=</span><span class="pln"> document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'foo'</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> child </span><span class="pun">=</span><span class="pln"> parentNode</span><span class="pun">.</span><span class="pln">firstChild</span><span class="pun">;</span><span class="pln"> child</span><span class="pun">;</span><span class="pln"> child </span><span class="pun">=</span><span class="pln"> child</span><span class="pun">.</span><span class="pln">nextSibling</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  doSomething</span><span class="pun">(</span><span class="pln">child</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+        </div>
+    </div>
+</li>
+</ol>
+</div>
+</body>
+</html>
